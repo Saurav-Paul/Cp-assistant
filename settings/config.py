@@ -90,12 +90,6 @@ class Config:
         else:
             cprint("Cancelled.", 'red')
 
-    def change_voice_engine(self):
-        pt = '-' * 22 + 'Voice Engine Change' + '-' * 22
-        cprint(pt, 'magenta')
-        print()
-        cprint(f" Current voice engine : {bt['boss']}", 'yellow')
-
     def bot(self, no):
         bot = [
             'Name',
@@ -107,7 +101,6 @@ class Config:
         cprint(" Select the index to change,", 'yellow')
 
         print()
-        # print(bt)
         for i, w in enumerate(bot):
             cprint(f'  {i + 1}) {w} : {bt[w.lower()]}', 'blue')
         cprint('  0) Cancel', 'red')
@@ -130,12 +123,6 @@ class Config:
             elif no == 3:
                 cprint(f' You have selected {bot[no - 1]} .', 'yellow')
                 self.change_boss()
-            # elif no == 4:
-            #     cprint(" Sorry temporary this option is unavailable.", 'red')
-            #     ok = True
-            #     continue
-            #     cprint(f' You have selected {bot[no - 1]} .', 'yellow')
-            #     self.change_voice_engine()
             else:
                 ok = True
                 cprint(" You have selected wrong index. Please try again.", 'red')
@@ -334,10 +321,10 @@ class Config:
                     x = self.obj.read(conf_path, section)
                     x['competitive_companion_port'] = str(port)
                     self.obj.update(conf_path, x, section)
-                    cprint(' Competitive companion port updated succussfully.', 'green')
+                    cprint(' Competitive companion port updated successfully.', 'green')
                     self.competitive_companion()
                 else:
-                    cprint(" You have choosen wrong index.", 'red')
+                    cprint(" You have chosen wrong index.", 'red')
                     ok = True
         except Exception as e:
             cprint(e, 'red')
@@ -1129,23 +1116,13 @@ class Config:
                 no = int(input())
                 if no == 0:
                     cprint(" Exiting.", 'red')
-                    cprint(" For some setting you might need to restart me.", 'yellow')
                     not_done = False
                 elif no == 1:
                     cprint(f' You have selected {self.lt[no - 1]} .', 'yellow')
                     self.bot(no - 1)
-                # elif no == 2:
-                #     cprint(f' You have selected {self.lt[no - 1]} .', 'yellow')
-                #     self.Interaction(no - 1)
                 elif no == 2:
                     cprint(f' You have selected {self.lt[no - 1]} .', 'yellow')
                     self.competitve_programming(no - 1)
-                # elif no == 4:
-                #     cprint(f' You have selected {self.lt[no - 1]} .', 'yellow')
-                #     self.features(no - 1)
-                # elif no == 5:
-                #     cprint(f' You have selected {self.lt[no - 1]} .', 'yellow')
-                #     self.training_mode(no - 1)
                 elif no == 3:
                     cprint(f" You have selected {self.lt[no - 1]} .", 'yellow')
                     self.export_import_settings(no - 1)
@@ -1159,7 +1136,6 @@ class Config:
 def if_config_type(msg):
     msg = msg.lower().strip()
     if msg in config_keys:
-        print('here')
         obj = Config()
         obj.config_list()
         return True
