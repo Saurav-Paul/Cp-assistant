@@ -190,9 +190,9 @@ class Cp_my_tester:
                 type = 'py'
 
         if type == 'cpp':
-            sanitizer = "-Wshadow -Wconversion -fsanitize=address -fsanitize=undefined -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC -g"
+            sanitizer = "-Wshadow -Wconversion -g"
 
-            cmd = f"g++ {debug_flag} {sanitizer} '{file_name}' -o test.out"
+            cmd = f"g++ {debug_flag} {sanitizer} {file_name} -o test.out"
             t = time.time()
             okk = os.system(cmd)
             if okk != 0:
