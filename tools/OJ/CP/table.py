@@ -100,7 +100,7 @@ class Table:
 
             print(' ' + clr(no, 'cyan') + ' ' * (3 - len(no)) + self.dif_sign, end='')
             tx = ''
-            if yNull == True:
+            if yNull:
                 tx = clr('(null)', self.information) + ' ' * (self.box_weight - 6)
             else:
                 for i in range(curr, curr + self.box_weight):
