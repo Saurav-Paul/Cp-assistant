@@ -4,6 +4,9 @@ from termcolor import cprint
 import random
 
 from settings.config import if_config_type
+from run.startup import start_up
+
+start_up()
 
 
 def print_start_name(name, weight, name_col, border_col):

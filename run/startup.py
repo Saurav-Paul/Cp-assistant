@@ -1,5 +1,8 @@
-import os
+import os, platform
+
+current_os = platform.system()
 
 
 def start_up():
-    os.system('color')
+    if current_os == 'Windows':
+        os.system('color')
