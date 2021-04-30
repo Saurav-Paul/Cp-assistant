@@ -148,14 +148,13 @@ class CpMyTester:
         return ok
 
     @staticmethod
-    def value_rectifier(s, strip_ok=True):
+    def value_rectifier(s, strip_ok=False):
         s = s.replace('\r', '')
         if strip_ok:
-            val = s.split(sep='\n')
-            new_val = []
-            for c in val:
-                new_val.append(c.strip())
-            s = '\n'.join(val)
+            val = ''
+            for c in s.split(sep='\n'):
+                val += c.strip() + ' '
+            s = val.strip()
         return s
 
     def test(self, file_name, show=False, debug_run=False):
