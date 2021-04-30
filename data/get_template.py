@@ -2,10 +2,10 @@ import os
 from system.path import getpath
 
 
-def get_template(fileName):
+def get_template(file_name):
     path = getpath(__file__)
     writen = ''
-    with open(os.path.join(path, fileName), 'r') as f:
+    with open(os.path.join(path, file_name), 'r') as f:
         writen = f.read()
 
     return writen
