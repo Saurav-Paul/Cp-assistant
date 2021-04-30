@@ -1,10 +1,11 @@
-from settings._first_load_ import check_if_first_time
-import sys, os
-from termcolor import cprint
+import os
 import random
+from sys import argv
 
-from settings.config import if_config_type
+from termcolor import cprint
+
 from run.startup import start_up
+from settings.config import if_config_type
 
 start_up()
 
@@ -32,7 +33,7 @@ def cp_start():
         cprint(pt, border_col)
         from tools.OJ.cp import cp_manager
 
-        lt = list(sys.argv)
+        lt = list(argv)
         lt = lt[1:]
         msg = ''
         for w in lt:
