@@ -8,7 +8,7 @@ from tools.OJ.CP.help import help_keys, args_help
 from tools.OJ.CP.login import CpLogin
 from tools.OJ.CP.problem import CpProblem
 from tools.OJ.CP.setup import CpSetup
-from tools.OJ.CP.submit import Cp_Submit
+from tools.OJ.CP.submit import CpSubmit
 from tools.OJ.CP.test import Cp_my_tester, Cp_Test
 from tools.OJ.CP.url_manager import Cp_url_manager
 from tools.run_program import if_run_type
@@ -49,7 +49,7 @@ def cp_manager(msg):
     elif 'submit' in ar:
         msg = msg.replace('submit', '')
         msg = msg.replace(' ', '')
-        obj = Cp_Submit()
+        obj = CpSubmit()
         obj.find_files(msg)
     elif '-t' in ar or 'template' in ar:
         msg = msg.replace('-t', '')

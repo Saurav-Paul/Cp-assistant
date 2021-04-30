@@ -4,17 +4,19 @@ import os
 from termcolor import cprint
 
 
-class Cp_Submit:
+class CpSubmit:
     from settings.compiler import cf_tool_mode
 
-    def cf_url(self, url):
+    @staticmethod
+    def cf_url(url):
         codeforces = 'codeforces.com'
         if codeforces in url:
             return True
         else:
             return False
 
-    def cf_submit(self, submission_id, file_name):
+    @staticmethod
+    def cf_submit(submission_id, file_name):
 
         pt = '-' * 22 + 'Cf tool' + '-' * 22
         cprint(pt, 'magenta')
@@ -32,7 +34,8 @@ class Cp_Submit:
 
         return self.cf_submit(submission_id, file_name)
 
-    def cf_id_from_cwd(self):
+    @staticmethod
+    def cf_id_from_cwd():
         try:
             curr_path = os.getcwd()
             problem_id = curr_path.split(sep='/')
@@ -41,7 +44,8 @@ class Cp_Submit:
         except:
             return ''
 
-    def check_cf_id(self, id):
+    @staticmethod
+    def check_cf_id(id):
         try:
             id = id.split(' ')
             if len(id) != 2:
@@ -56,7 +60,7 @@ class Cp_Submit:
     def cf_submit_from_cwd(self, file_name=''):
 
         try:
-            if self.cf_tool_mode == False:
+            if not self.cf_tool_mode:
                 return False
 
             submission_id = self.cf_id_from_cwd()
@@ -100,7 +104,7 @@ class Cp_Submit:
             if self.cf_tool_mode == True and self.cf_url(url):
                 submitted = self.cf_submit_manager(url, file_name)
 
-            if submitted == False:
+            if not submitted:
                 cmd = 'oj submit --wait=0 --yes $URL $FILENAME'
                 cmd = cmd.replace('$URL', url)
                 cmd = cmd.replace('$FILENAME', file_name)
@@ -122,7 +126,7 @@ class Cp_Submit:
                             file_list.append(file)
             except:
                 pass
-        # print(file_list)
+
         sz = len(file_list)
         if sz == 1:
             self.submit_it(file_list[0])
