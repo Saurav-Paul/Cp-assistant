@@ -6,35 +6,31 @@ import time
 from termcolor import cprint
 
 
-class Cp_contest():
+class CpContest:
 
-    def fetch_problem(self, url=''):
+    @staticmethod
+    def fetch_problem(url=''):
         try:
             cmd = 'oj-api get-problem ' + url
             cmd = list(cmd.split())
 
             cp = subprocess.run(cmd, universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             problem = json.loads(cp.stdout)
-            # with open('problem.json','w') as f:
-            #     f.write(cp.stdout)
 
             if problem['status'] == 'ok':
-                # print('ok')
                 try:
                     alphabet = problem['result']['context']['alphabet']
                 except:
                     alphabet = ''
                 problem_name = problem['result']['name']
                 problem_name = alphabet + '-' + problem_name
-                # print(problem_name)
+
                 if not os.path.isdir(problem_name):
                     os.mkdir(problem_name)
                 try:
                     result = f"  * Fetched '{problem_name}'' Successfully"
                     testcases = problem['result']['tests']
-                    # print(testcases)
-                    # if not os.path.isdir(problem_name):
-                    # os.mkdir("'"+problem_name+"'"+'/test')
+
                     base = os.getcwd()
                     path = os.path.join(base, problem_name, "")
 
@@ -46,21 +42,19 @@ class Cp_contest():
                     with open(path + '.info', 'w') as f:
                         f.write(info)
 
-                    # print(path)
                     if not os.path.isdir(path + "testcases"):
                         os.mkdir(path + "testcases")
                     path = os.path.join(path, 'testcases')
                     no = 1
                     for case in testcases:
-                        # print(case)
-                        fileName_in = 'Sample-' + str(no).zfill(2) + '.in'
-                        fileName_out = 'Sample-' + str(no).zfill(2) + '.out'
-                        # print(fileName_in)
+                        file_name_in = 'Sample-' + str(no).zfill(2) + '.in'
+                        file_name_out = 'Sample-' + str(no).zfill(2) + '.out'
+
                         no += 1
-                        with open(os.path.join(path, fileName_in), 'w') as fin:
+                        with open(os.path.join(path, file_name_in), 'w') as fin:
                             fin.write(case['input'])
-                        with open(os.path.join(path, fileName_out), 'w') as fout:
-                            fout.write(case['output'])
+                        with open(os.path.join(path, file_name_out), 'w') as f_out:
+                            f_out.write(case['output'])
                     cprint(result, 'green')
 
                 except Exception as e:
@@ -70,11 +64,8 @@ class Cp_contest():
                 result = "Wrong url."
                 cprint(result, 'result')
 
-
-
-        except Exception as e:
+        except:
             print('-' * 55)
-            # print(e)
             cprint("Sorry Can't Fetch.", 'red')
 
     def parse_contest(self, url=''):
@@ -101,31 +92,29 @@ class Cp_contest():
             else:
                 cprint("Sorry contest can't be fetched. Sorry sir. :( ", 'red')
                 return
-            # print(contest)
+
             path = os.getcwd()
-            # print(path)
+
             contest_name = contest['result']['name']
             cprint(f' # Contest name : {contest_name}', 'green')
 
             if not os.path.isdir(contest_name):
                 os.mkdir(contest_name)
-                # cprint('Contest folder created.','green')
 
             print()
             os.chdir(os.path.join(path, contest_name))
-            # print(os.getcwd())
+
             problem = contest['result']['problems']
             with open('t.json', 'w') as f:
                 f.write(str(contest))
 
             for key in problem:
                 url = key['url']
-                # print(url)
-                # Cp_Problem.fetch_problem(url)
+
                 self.fetch_problem(url=url)
 
             os.chdir(path)
-            # print(os.getcwd())
+
             print()
             cprint(" # Done. :D", 'green')
             cprint(f" # Time taken {time.time() - t:.4f} sec.", 'blue')

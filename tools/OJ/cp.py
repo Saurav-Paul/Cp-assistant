@@ -2,7 +2,7 @@ from termcolor import cprint
 
 from tools.OJ.CP.add_test import CpAddTest
 from tools.OJ.CP.bruteforce import CpBruteforce
-from tools.OJ.CP.contest import Cp_contest
+from tools.OJ.CP.contest import CpContest
 from tools.OJ.CP.extension import Cp_ext
 from tools.OJ.CP.help import help_keys, args_help
 from tools.OJ.CP.login import Cp_login
@@ -65,7 +65,7 @@ def cp_manager(msg):
         obj.template(file_name=msg)
 
     elif 'contest' in ar:
-        obj = Cp_contest()
+        obj = CpContest()
         obj.parse_contest()
 
     elif 'login' in ar:
