@@ -3,7 +3,10 @@ import os
 from termcolor import colored as clr, cprint
 
 
-class Cp_add_test:
+class CpAddTest:
+    """
+     This class handles adding testcases
+    """
 
     @property
     def take_input(self):
@@ -17,7 +20,8 @@ class Cp_add_test:
 
         return content
 
-    def test_print(self, name, value):
+    @staticmethod
+    def test_print(name, value):
         pt = '-' * 22 + name + '-' * 22
         cprint(pt, 'magenta')
         value = value.split(sep='\n')
@@ -25,7 +29,7 @@ class Cp_add_test:
             x = '  ' + x
             print(x)
 
-    def add_case(self, no=1, name='Custom-'):
+    def add_case(self, name='Custom-'):
         """  function for adding testcases """
         try:
             pt = '-' * 20 + '-' * 10 + '-' * 20
@@ -54,12 +58,12 @@ class Cp_add_test:
             cprint('Enter the output(Press Ctrl+d or Ctrl+z after done):', 'yellow')
             y = self.take_input
 
-            fileName_in = name + str(no).zfill(2) + '.in'
-            fileName_out = name + str(no).zfill(2) + '.out'
+            filename_in = name + str(no).zfill(2) + '.in'
+            filename_out = name + str(no).zfill(2) + '.out'
             print()
 
-            self.test_print(fileName_in, x)
-            self.test_print(fileName_out, y)
+            self.test_print(filename_in, x)
+            self.test_print(filename_out, y)
 
             cprint('-' * 55, 'magenta')
 
@@ -75,10 +79,10 @@ class Cp_add_test:
                 return
 
             no += 1
-            with open(os.path.join(path_name, fileName_in), 'w') as fin:
+            with open(os.path.join(path_name, filename_in), 'w') as fin:
                 fin.write(x)
-            with open(os.path.join(path_name, fileName_out), 'w') as fout:
-                fout.write(y)
+            with open(os.path.join(path_name, filename_out), 'w') as f_out:
+                f_out.write(y)
 
             cprint('Testcase added Successfully. :D', 'green', attrs=['bold'])
 

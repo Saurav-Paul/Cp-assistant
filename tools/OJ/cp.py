@@ -1,7 +1,7 @@
 from termcolor import cprint
 
-from tools.OJ.CP.add_test import Cp_add_test
-from tools.OJ.CP.bruteforce import Cp_bruteforce
+from tools.OJ.CP.add_test import CpAddTest
+from tools.OJ.CP.bruteforce import CpBruteforce
 from tools.OJ.CP.contest import Cp_contest
 from tools.OJ.CP.extension import Cp_ext
 from tools.OJ.CP.help import help_keys, args_help
@@ -15,13 +15,13 @@ from tools.run_program import if_run_type
 
 cp_keys = ['-cp', '-Cp']
 
-cf_tool = True
-
-editor_file_path = []
-editor_file_name = []
-
 
 def cp_manager(msg):
+    """
+    It takes command and initialize operations according to the command
+    :param msg:
+    :return:
+    """
     status = ''
     msg = msg.lower()
     ar = msg.split(sep=' ')
@@ -72,7 +72,7 @@ def cp_manager(msg):
         obj = Cp_login()
         obj.login()
     elif 'add' in ar:
-        obj = Cp_add_test()
+        obj = CpAddTest()
         obj.add_case()
     elif 'test-oj' in ar:
         msg = msg.replace('test -oj', '')
@@ -97,7 +97,7 @@ def cp_manager(msg):
         obj = Cp_setup()
         obj.setup()
     elif 'brute' in ar:
-        obj = Cp_bruteforce()
+        obj = CpBruteforce()
         obj.run()
     elif 'gen' in ar:
         obj = Cp_setup()
@@ -122,6 +122,11 @@ def cp_manager(msg):
 
 
 def if_cp_type(msg):
+    """
+    check whether given command is a cp type command
+    :param msg:
+    :return:
+    """
     for key in cp_keys:
         if key in msg:
             msg = msg.replace(key, '')
