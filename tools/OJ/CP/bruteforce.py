@@ -9,9 +9,10 @@ from tqdm import tqdm
 from tools.OJ.CP.table import Table
 
 
-class Cp_bruteforce:
+class CpBruteforce:
 
-    def find_files(self, file_name=''):
+    @staticmethod
+    def find_files(file_name=''):
 
         file_list = []
         # print(f'FIle name is {file_name}')
@@ -46,28 +47,30 @@ class Cp_bruteforce:
                 cprint("Select the file number : ", 'cyan', end='')
                 index = int(input())
                 if index == 0:
-                    cprint("Bruteforcing operation cancelled.", 'red')
-                    return ('Cancelled', False)
+                    cprint("Bruteforce operation cancelled.", 'red')
+                    return 'Cancelled', False
                 elif index < no:
-                    return (file_list[index - 1], True)
+                    return file_list[index - 1], True
                 else:
                     cprint("You have entered the wrong index.Please try again.", 'red')
         else:
             cprint("NO FILE FOUND :(", 'red')
-            return ('FILE NOT FOUND', False)
+            return 'FILE NOT FOUND', False
 
-    def diff_print(self, name, value, color):
+    @staticmethod
+    def diff_print(name, value, color):
         cprint('  ' + name + ' :', 'yellow', attrs=['bold'])
         for x in value:
             x = '  ' + x
             cprint(x, color)
 
-    def colorfull_diff_print(self, x, y):
+    @staticmethod
+    def colorful_diff_print(x, y):
         cprint("  Output :", 'yellow', attrs=['bold'])
         for wx, wy in zip_longest(x, y, fillvalue=''):
             print('  ', end='')
             for o, e in zip_longest(wx, wy, fillvalue=''):
-                if (o == e):
+                if o == e:
                     cprint(o, 'green', end='')
                 else:
                     cprint(o, 'red', end='')
@@ -86,7 +89,8 @@ class Cp_bruteforce:
         obj.print(output, expected)
         return
 
-    def sub_process(self, cmd, value, iput):
+    @staticmethod
+    def sub_process(cmd, value, iput):
 
         x = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
         # print('here')
@@ -96,7 +100,7 @@ class Cp_bruteforce:
             result = (x.communicate()[0]).decode('utf-8')
             # print(result)
 
-        return (result, False)
+        return result, False
 
     def cmd_manager(self, file_name, value, ext, iput=True):
         pass
@@ -112,7 +116,8 @@ class Cp_bruteforce:
         # print(cmd)
         return self.sub_process(cmd, value, iput)[0]
 
-    def add_case(self, x, y, no=1, name='Genarated-'):
+    @staticmethod
+    def add_case(x, y, no=1, name='Generated-'):
         """  function for adding testcases """
         try:
 
@@ -140,12 +145,13 @@ class Cp_bruteforce:
             with open(os.path.join(path_name, fileName_out), 'w') as fout:
                 fout.write(y)
 
-            cprint('Testcase added Sucessfully. :D', 'green', attrs=['bold'])
+            cprint('Testcase added Successfully. :D', 'green', attrs=['bold'])
 
         except:
             cprint("Can't add testcase. :( ", 'red', attrs=['bold'])
 
-    def remove_unnecessary(self, lt):
+    @staticmethod
+    def remove_unnecessary(lt):
         for x in lt:
             try:
                 os.remove(x)
@@ -153,41 +159,34 @@ class Cp_bruteforce:
                 pass
 
     def run(self):
-        pass
-
         need_to_removed = []
 
         brute_file = self.find_files('brute')
-        # print(brute_file)
-        if brute_file[1] == False:
+        if not brute_file[1]:
             return
-        # print(brute_file[0])
         gen_file = self.find_files('gen')
-        # print(gen_file)
-        # print(gen_file[1])
-        if gen_file[1] == False:
+        if not gen_file[1]:
             return
         test_file = self.find_files('')
-        if test_file[1] == False:
+        if not test_file[1]:
             return
 
         test_file = test_file[0]
         brute_file = brute_file[0]
         gen_file = gen_file[0]
-        # print(test_file)
+
         cprint('How many times do you want to stress? : ', 'cyan', end='')
         no = int(input())
         if no < 1:
             cprint('You want to bruteforce test less than 1 time? Seriously man? (-_-)', 'red')
             return
-        # testing....
+
         print()
         brute_ext = brute_file.rsplit(sep='.', maxsplit=1)[1]
         gen_ext = gen_file.rsplit(sep='.', maxsplit=1)[1]
         test_ext = test_file.rsplit(sep='.', maxsplit=1)[1]
-        # print(brute_ext,gen_ext,test_ext)
+
         if brute_ext == 'cpp':
-            # print('cpp = ',brute_file)
             ext = brute_file.rsplit(sep='.', maxsplit=1)[0] + '.out'
             cmd = "g++ " + brute_file + " -o " + ext
             need_to_removed.append(ext)
@@ -199,7 +198,6 @@ class Cp_bruteforce:
             if exc_code != 0:
                 return
         if gen_ext == 'cpp':
-            # print('cpp = ',gen_file)
             ext = gen_file.rsplit(sep='.', maxsplit=1)[0] + '.out'
             cmd = "g++ " + gen_file + " -o " + ext
             need_to_removed.append(ext)
@@ -212,7 +210,6 @@ class Cp_bruteforce:
                 return
 
         if test_ext == 'cpp':
-            # print('cpp = ',test_file)
             ext = test_file.rsplit(sep='.', maxsplit=1)[0] + '.out'
             cmd = "g++ " + test_file + " -o " + ext
             need_to_removed.append(ext)
@@ -227,7 +224,7 @@ class Cp_bruteforce:
 
         pt = '-' * 20 + test_file + '-' * 20
         cprint(pt, 'magenta')
-        pt = (' ' * 13 + "...Bruteforcing...")
+        pt = (' ' * 13 + "...Bruteforce...")
         print()
         cprint(f' # Test File  : ', 'yellow', end='')
         cprint(f'{test_file}', 'cyan')
@@ -248,19 +245,12 @@ class Cp_bruteforce:
         for i in range(no):
             pass
             iput = self.cmd_manager(gen_file, '', gen_ext, False)
-            # print(iput)
             ans = self.cmd_manager(brute_file, iput, brute_ext, True)
-            # print(ans)
             t = time.time()
             result = self.cmd_manager(test_file, iput, test_ext, True)
-            # print(ans)
             t = time.time() - t
             cprint('  * ' + str(i + 1).zfill(digit) + ') ', 'yellow', end='')
 
-            # if(iput == '4\n'):
-            #     print(ans)
-            #     print(result)
-            #     break
             if t > st:
                 st = t
             if result == ans:
@@ -282,7 +272,6 @@ class Cp_bruteforce:
                 want = input()
                 want = want.lower()
                 if want == 'y' or want == 'yes':
-                    # cprint('Test case added successfully.','green')
                     self.add_case(iput, ans)
                 return
 
