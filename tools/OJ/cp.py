@@ -6,7 +6,7 @@ from tools.OJ.CP.contest import CpContest
 from tools.OJ.CP.extension import CpExt
 from tools.OJ.CP.help import help_keys, args_help
 from tools.OJ.CP.login import CpLogin
-from tools.OJ.CP.problem import Cp_Problem
+from tools.OJ.CP.problem import CpProblem
 from tools.OJ.CP.setup import Cp_setup
 from tools.OJ.CP.submit import Cp_Submit
 from tools.OJ.CP.test import Cp_my_tester, Cp_Test
@@ -44,7 +44,7 @@ def cp_manager(msg):
             obj.listen()
         status = '$SHELL'
     elif 'problem' in ar:
-        obj = Cp_Problem()
+        obj = CpProblem()
         obj.fetch_problem()
     elif 'submit' in ar:
         msg = msg.replace('submit', '')

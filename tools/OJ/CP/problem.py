@@ -1,4 +1,3 @@
-
 import json
 import os
 import subprocess
@@ -6,9 +5,10 @@ import subprocess
 from termcolor import cprint
 
 
-class Cp_Problem:
+class CpProblem:
 
-    def fetch_problem(self, url=''):
+    @staticmethod
+    def fetch_problem(url=''):
         try:
             cprint(' ' * 17 + '...Parsing Problem...' + ' ' * 17, 'blue')
             if url == '':
@@ -23,14 +23,13 @@ class Cp_Problem:
             problem = json.loads(cp.stdout)
 
             if problem['status'] == 'ok':
-                # print('ok')
                 try:
                     alphabet = problem['result']['context']['alphabet']
                 except:
                     alphabet = ''
                 problem_name = problem['result']['name']
                 problem_name = alphabet + '-' + problem_name
-                # print(problem_name)
+
                 if not os.path.isdir(problem_name):
                     os.mkdir(problem_name)
                 try:
@@ -53,15 +52,13 @@ class Cp_Problem:
                     path = os.path.join(path, 'testcases')
                     no = 1
                     for case in testcases:
-                        # print(case)
-                        fileName_in = 'Sample-' + str(no).zfill(2) + '.in'
-                        fileName_out = 'Sample-' + str(no).zfill(2) + '.out'
-                        # print(fileName_in)
+                        file_name_in = 'Sample-' + str(no).zfill(2) + '.in'
+                        file_name_out = 'Sample-' + str(no).zfill(2) + '.out'
                         no += 1
-                        with open(os.path.join(path, fileName_in), 'w') as fin:
+                        with open(os.path.join(path, file_name_in), 'w') as fin:
                             fin.write(case['input'])
-                        with open(os.path.join(path, fileName_out), 'w') as fout:
-                            fout.write(case['output'])
+                        with open(os.path.join(path, file_name_out), 'w') as f_out:
+                            f_out.write(case['output'])
                     cprint(result, 'green')
 
                 except Exception as e:
@@ -73,7 +70,6 @@ class Cp_Problem:
 
             cprint('-' * 55, 'magenta')
 
-        except Exception as e:
+        except:
             print('-' * 55)
-            # print(e)
             cprint("Sorry Can't Fetch.", 'red')
