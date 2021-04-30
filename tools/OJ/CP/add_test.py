@@ -2,6 +2,8 @@ import os
 
 from termcolor import colored as clr, cprint
 
+from system.platform import get_platform
+
 
 class CpAddTest:
     """
@@ -51,11 +53,14 @@ class CpAddTest:
             # print(lt)
             ase = len(lt)
             no = int(ase / 2) + 1
-
-            cprint('Enter the input(Press Ctrl+d or Ctrl+z after done):', 'yellow')
+            if get_platform() == 'Windows':
+                way_to_stop = 'Press Ctrl+z and then press enter'
+            else:
+                way_to_stop = 'Press Ctrl+d'
+            cprint(f'Enter the input({way_to_stop}):', 'yellow')
             x = self.take_input
 
-            cprint('Enter the output(Press Ctrl+d or Ctrl+z after done):', 'yellow')
+            cprint(f'Enter the output({way_to_stop}):', 'yellow')
             y = self.take_input
 
             filename_in = name + str(no).zfill(2) + '.in'

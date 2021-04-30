@@ -191,14 +191,14 @@ class CpMyTester:
             cprint('Not test file available.')
             return
         ext = file_name.rsplit(sep='.', maxsplit=1)
-        type = ''
+        file_type = ''
         if len(ext) > 1:
             if ext[1] == 'cpp':
-                type = 'cpp'
+                file_type = 'cpp'
             elif ext[1] == 'py':
-                type = 'py'
+                file_type = 'py'
 
-        if type == 'cpp':
+        if file_type == 'cpp':
             sanitizer = "-Wshadow -Wconversion -g"
 
             cmd = f"g++ {debug_flag} {sanitizer} {file_name} -o test.out"
@@ -254,10 +254,10 @@ class CpMyTester:
             t = time.time()
             print()
             cprint('  * ' + ext[0], 'yellow')
-            if type == 'cpp':
+            if file_type == 'cpp':
 
                 result = self.sub_process([run_cmd], value)
-            elif type == 'py':
+            elif file_type == 'py':
                 result = self.sub_process(['python3', file_name], value)
             else:
                 result = ('', False)
