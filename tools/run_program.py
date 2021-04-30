@@ -1,24 +1,17 @@
+import os
+
+from termcolor import cprint
+from tqdm import tqdm
+
+from settings.compiler import compiler
 from system.platform import get_platform
-
-try:
-    import os
-    from settings.compiler import compiler
-    from tqdm import tqdm
-except Exception as e:
-    pass
-
-try:
-    from termcolor import colored, cprint
-except Exception as e:
-    pass
 
 run_keys = ['-r', '-run']
 files_ext = ['cpp', 'py']
 
 
-def run_prog(file_name, debug=False, com=False, no=1):
+def run_program(file_name, debug=False, com=False, no=1):
     try:
-        # print(os.getcwd())
         pt = ("Running the " + file_name + '......')
         cprint(pt, 'yellow')
         ext = file_name.rsplit(sep='.', maxsplit=1)
@@ -44,7 +37,7 @@ def run_prog(file_name, debug=False, com=False, no=1):
             x = ('\n' + '-' * 23 + '-' * len(file_name) + '-' * 22)
             if not os.path.isfile(ext[0]):
                 return
-            # donot_want = ['no', 'n', 'cancel', '0']
+
             try:
                 for i in range(no):
                     cprint(pt, 'magenta')
@@ -60,7 +53,7 @@ def run_prog(file_name, debug=False, com=False, no=1):
                         confirm = input()
                         cprint(x, 'magenta')
 
-                if com == False:
+                if not com:
                     os.remove(ext[0])
             except:
                 cprint("Sorry sir can't run.", 'red')
@@ -89,12 +82,11 @@ def run_prog(file_name, debug=False, com=False, no=1):
                 cprint("Sorry sir can't run.", 'red')
         else:
             cprint('Unknown file format.', 'red')
-    except Exception as e:
+    except:
         cprint("Compilation Error", 'red')
 
 
 def find_files(lt):
-    # print(lt)
     debug = False
     com = False
     tm = 1
@@ -125,7 +117,6 @@ def find_files(lt):
         except:
             pass
 
-    # print(lt)
     for w in lt:
         if '-' in w:
             temp = w.replace('-', '')
@@ -133,7 +124,6 @@ def find_files(lt):
                 tm = int(temp)
                 lt.remove(w)
 
-    # print(tm,lt)
     num = len(lt)
     file_list = []
     if num == 1:
@@ -146,7 +136,6 @@ def find_files(lt):
                 pass
     else:
         arg = lt[1:]
-        # print(arg)
         for w in arg:
             for file in os.listdir(os.getcwd()):
                 if w.lower() in file.lower():
@@ -174,15 +163,15 @@ def find_files(lt):
                 if index == 0:
                     cprint('Operation Cancelled.', 'red')
                     break
-                elif index > 0 and index < no:
-                    run_prog(file_list[index - 1], debug, com, tm)
+                elif 0 < index < no:
+                    run_program(file_list[index - 1], debug, com, tm)
                     break
                 else:
                     cprint('Wrong file index. Please try again.', 'red')
         except:
-            cprint("Some error happended.", 'red', attrs=['bold'])
+            cprint("Some error happened.", 'red', attrs=['bold'])
     elif no == 1:
-        run_prog(file_list[0], debug, com, tm)
+        run_program(file_list[0], debug, com, tm)
     else:
         cprint('There is not any python or c++ file available.', 'yellow')
 
@@ -195,8 +184,3 @@ def if_run_type(msg):
             find_files(lt)
             return True
     return False
-
-
-if __name__ == "__main__":
-    msg = input('int->')
-    # if_run_type(msg)
