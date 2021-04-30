@@ -1,7 +1,9 @@
 import os
-from tools.ConfigParser import ConfigParser_manager as CM
-from system.path import getpath
+
 from termcolor import cprint
+
+from system.path import getpath
+from tools.ConfigParser import ConfigParser_manager as CM
 
 conf_path = os.path.join(getpath(__file__), 'settings.conf')
 default_path = os.path.join(getpath(__file__), 'default.conf')

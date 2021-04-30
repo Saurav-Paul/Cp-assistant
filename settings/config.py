@@ -1,10 +1,12 @@
-from tools.ConfigParser import ConfigParser_manager as CM
-from system.path import getpath
 import os
+
 from termcolor import cprint
+
 from settings.settings import bot as bt
 from settings.settings import interaction_setting as its
 from settings.settings import update_bot
+from system.path import getpath
+from tools.ConfigParser import ConfigParser_manager as CM
 from tools.json_manager import JsonManager as JM
 
 config_keys = ['-config', '-settings']
@@ -127,7 +129,7 @@ class Config:
                 ok = True
                 cprint(" You have selected wrong index. Please try again.", 'red')
 
-    def Interaction(self, no):
+    def interaction(self, no):
 
         options = [
             'voice_reply',
@@ -188,7 +190,6 @@ class Config:
                         cprint(" Successfully updated.", 'green')
                     else:
                         cprint("Cancelled.", 'red')
-
 
             elif no == 2:
                 cprint(f' You have selected {options[no - 1]} .', 'yellow')
@@ -518,8 +519,6 @@ class Config:
                     ok = True
                     cprint(" You have selected wrong index. Please try again.", 'red')
 
-
-
         except Exception as e:
             cprint(e, 'red')
 
@@ -559,10 +558,10 @@ class Config:
                     self.obj.update(conf_path, x, section)
                     compiler['c++'] = command
                     update_compiler(compiler)
-                    cprint(' C++ compiling command updated succussfully.', 'green')
+                    cprint(' C++ compiling command updated successfully.', 'green')
                     self.cpp_compiler()
                 else:
-                    cprint(" You have choosen wrong index.", 'red')
+                    cprint(" You have chosen wrong index.", 'red')
                     ok = True
         except Exception as e:
             cprint(e, 'red')
@@ -604,10 +603,10 @@ class Config:
                     self.obj.update(conf_path, x, section)
                     compiler['c++ debug'] = command
                     update_compiler(compiler)
-                    cprint(' C++ debug compiling command updated succussfully.', 'green')
+                    cprint(' C++ debug compiling command updated successfully.', 'green')
                     self.cpp_debug_compiler()
                 else:
-                    cprint(" You have choosen wrong index.", 'red')
+                    cprint(" You have chosen wrong index.", 'red')
                     ok = True
         except Exception as e:
             cprint(e, 'red')
@@ -648,10 +647,10 @@ class Config:
                     self.obj.update(conf_path, x, section)
                     compiler['python'] = command
                     update_compiler(compiler)
-                    cprint(' Python running command updated succussfully.', 'green')
+                    cprint(' Python running command updated successfully.', 'green')
                     self.python_compiler()
                 else:
-                    cprint(" You have choosen wrong index.", 'red')
+                    cprint(" You have chosen wrong index.", 'red')
                     ok = True
         except Exception as e:
             cprint(e, 'red')
@@ -743,7 +742,7 @@ class Config:
                     cprint(f' Cf tool mode change to {changeto}', 'green')
                     self.cf_tool_function()
                 else:
-                    cprint(" You have choosen wrong index.", 'red')
+                    cprint(" You have chosen wrong index.", 'red')
                     ok = True
         except Exception as e:
             cprint(e, 'red')
@@ -841,7 +840,7 @@ class Config:
 
                         return
                     else:
-                        cprint(" You have choosen wrong index.", 'red')
+                        cprint(" You have chosen wrong index.", 'red')
                         ok = True
         except Exception as e:
             cprint(e, 'red')
@@ -895,14 +894,15 @@ class Config:
                 ok = True
                 cprint(" You have selected wrong index. Please try again.", 'red')
 
-    def features(self, no):
+    @staticmethod
+    def features(no):
         from system.features_installation import speed_up, install_speaking_system, install_command_system
         options = [
             'Speed Up',
             'Speaking Capability',
             'Voice Command'
         ]
-        pt = '-' * 22 + "Features Installaion" + '-' * 22
+        pt = '-' * 22 + "Features Installation" + '-' * 22
         cprint(pt, 'magenta')
         print()
         cprint(" All the available options are given below : ", 'yellow')
@@ -1031,18 +1031,14 @@ class Config:
                     obj = CM()
                     for section in all_sections:
                         data = obj.read(self.export_file_name, section=section)
-                        # cprint(data,'yellow')
                         conf_data = obj.read(conf_path, section=section)
-                        # cprint(conf_data,'cyan')
 
                         for key in conf_data:
                             try:
                                 x = data[key]
                                 conf_data[key] = x
-                                # cprint(key+' '+x , 'blue')
                             except:
                                 pass
-                        # cprint(conf_data,'magenta')
                         obj.update(conf_path, conf_data, section=section)
 
                     cprint(" Configs are successfully imported.", 'green')
@@ -1050,15 +1046,6 @@ class Config:
 
                 except Exception as e:
                     cprint(f" Sorry sir can't import. Error : {e}", 'red')
-                # return
-                # cprint(" Okay sir updating configs.",'green')
-                # try :
-                #     with open(self.export_file_name,'r') as f :
-                #         value = f.read()
-                #     with open(conf_path,'w') as f :
-                #         f.write(value)
-                # except Exception as e:
-                #     cprint(f" Sorry sir can't import. Error : {e}",'red')
             else:
                 cprint(" Okay sir operation cancelled.", 'red')
         pass
