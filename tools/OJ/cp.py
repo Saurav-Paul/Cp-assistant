@@ -3,7 +3,7 @@ from termcolor import cprint
 from tools.OJ.CP.add_test import CpAddTest
 from tools.OJ.CP.bruteforce import CpBruteforce
 from tools.OJ.CP.contest import CpContest
-from tools.OJ.CP.extension import Cp_ext
+from tools.OJ.CP.extension import CpExt
 from tools.OJ.CP.help import help_keys, args_help
 from tools.OJ.CP.login import Cp_login
 from tools.OJ.CP.problem import Cp_Problem
@@ -30,10 +30,10 @@ def cp_manager(msg):
         pass
 
     elif 'dev' in ar or 'dev' in ar:
-        obj = Cp_ext()
+        obj = CpExt()
         obj.link()
     elif 'parse' in ar or 'listen' in ar:
-        obj = Cp_ext()
+        obj = CpExt()
         if 'link' in ar:
             obj.link()
         elif 'id' in ar:

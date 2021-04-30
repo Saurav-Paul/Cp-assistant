@@ -14,59 +14,55 @@ editor_file_path = []
 editor_file_name = []
 
 
-class Cp_ext:
+class CpExt:
     HOST = '127.0.0.1'
     PORT = competitive_companion_port
 
-    def template(self, file_path, file_name='sol.cpp', open_editor=False):
+    @staticmethod
+    def template(file_path, file_name='sol.cpp', open_editor=False):
         try:
 
-            # print(open)
             obj_template = Cp_setup()
             obj_template.template(file_path, file_name, parsingMode=True, open_editor=open_editor)
             return
-        except Exception as e:
+        except:
             return
 
-    def rectify(self, s):
+    @staticmethod
+    def rectify(s):
         try:
             i = s.find('{')
             s = s[i:]
             return s
-        except Exception as e:
+        except:
             return ''
 
     def create(self, problem, cnt=0, link=False):
-        # print(problem)
         try:
             problem = self.rectify(problem)
             dic = json.loads(problem)
-            if link == True:
+            if link:
                 dic = dic['result']
 
-            # cprint(dic,'yellow')
-            # return
             problem_name = dic['name']
             try:
                 contest_name = dic['group']
             except:
                 contest_name = 'NULL'
             url = dic['url']
-            problem_timeLimit = 'NULL'
-            problem_memoryLimit = 'NULL'
+            problem_time_limit = 'NULL'
+            problem_memory_limit = 'NULL'
             try:
-                problem_timeLimit = str(dic['timeLimit']) + ' ms'
-                problem_memoryLimit = str(dic['memoryLimit']) + ' MB'
+                problem_time_limit = str(dic['timeLimit']) + ' ms'
+                problem_memory_limit = str(dic['memoryLimit']) + ' MB'
             except Exception as e:
                 cprint(e, 'red')
                 pass
-            # cprint(f'{problem_name} : {contest_name} : {url} ','cyan')
             base = os.getcwd()
             base_name = os.path.basename(base)
-            # cprint(f'{base_name}','cyan')
+
             contest_path = os.path.join(base, contest_name)
-            # cprint(f'{contest_path}','yellow')
-            # cprint(f'cnt = {cnt}','yellow')
+
             if base_name != contest_name and contest_name != 'NULL':
                 if cnt == 0:
                     if not os.path.isdir(contest_name):
@@ -80,20 +76,18 @@ class Cp_ext:
                     cprint(f" All the problems will be parsed into '{contest_name}' folder.\n", 'magenta')
                 os.chdir(contest_path)
 
-            # cprint(os.getcwd(),'red')
             if not os.path.isdir(problem_name):
                 os.mkdir(problem_name)
-                # print("problem created")
 
             info = '{"name" : "$NAME" , "url" : "$URL","timeLimit" : "$timeLimit" , "memoryLimit":"$memoryLimit"}'
 
             info = info.replace('$NAME', problem_name)
             info = info.replace('$URL', url)
-            info = info.replace('$memoryLimit', problem_memoryLimit)
-            info = info.replace('$timeLimit', problem_timeLimit)
+            info = info.replace('$memoryLimit', problem_memory_limit)
+            info = info.replace('$timeLimit', problem_time_limit)
 
             path = os.path.join(os.getcwd(), problem_name, "")
-            # print(path)
+
             with open(path + '.info', 'w') as f:
                 f.write(info)
 
@@ -104,31 +98,26 @@ class Cp_ext:
                 self.template(path, open_editor=open_editor)
 
             testcases = dic['tests']
-            # print(testcases)
-            # return
+
             no = 1
             if not os.path.isdir(path + "testcases"):
                 os.mkdir(path + "testcases")
             path = os.path.join(path, 'testcases')
 
             for case in testcases:
-                # print(case)
-                fileName_in = 'Sample-' + str(no).zfill(2) + '.in'
-                fileName_out = 'Sample-' + str(no).zfill(2) + '.out'
-                # print(fileName_in)
+                file_name_in = 'Sample-' + str(no).zfill(2) + '.in'
+                file_name_out = 'Sample-' + str(no).zfill(2) + '.out'
+
                 no += 1
-                with open(os.path.join(path, fileName_in), 'w') as fin:
+                with open(os.path.join(path, file_name_in), 'w') as fin:
                     fin.write(case['input'])
-                with open(os.path.join(path, fileName_out), 'w') as fout:
-                    fout.write(case['output'])
-            # cprint(result,'green')
-            # print(info)
+                with open(os.path.join(path, file_name_out), 'w') as f_out:
+                    f_out.write(case['output'])
+
             cprint(f'  {problem_name} fetched successfully.', 'green')
             os.chdir(contest_path)
 
-        except Exception as e:
-            # cprint(e,'red')
-            # cprint("Can't fetch.",'red')
+        except:
             pass
 
     def listen(self):
@@ -149,15 +138,12 @@ class Cp_ext:
                     timeout = 2
                     conn, addr = s.accept()
                     with conn:
-                        # cprint("Connected...",'green')
                         problem_json = ''
                         while True:
                             data = conn.recv(1024)
                             result = (data.decode('utf-8'))
-                            # result = self.rectify(result)
 
                             if not data:
-                                # cprint(problem_json,'cyan')
                                 if problem_json == '':
                                     break
                                 t = threading.Thread(target=self.create, args=(problem_json, cnt))
@@ -187,6 +173,7 @@ class Cp_ext:
 
     def link(self):
 
+        t = None
         cprint(' ' * 17 + '...Parsing Problem...' + ' ' * 17, 'blue')
         print()
         cprint(" Enter the link of the problem : ", 'cyan', end='')
@@ -194,15 +181,15 @@ class Cp_ext:
         print()
         cnt = 0
         ok = True
+
         while ok:
             try:
-
                 cmd = 'oj-api get-problem --compatibility ' + url
                 cmd = list(cmd.split())
 
                 problem_json = subprocess.run(cmd, universal_newlines=True, stdout=subprocess.PIPE,
                                               stderr=subprocess.PIPE)
-                # print(problem_json.stdout)
+
                 t = threading.Thread(target=self.create, args=(problem_json.stdout, cnt, True))
                 t.start()
                 ok = False
@@ -217,6 +204,7 @@ class Cp_ext:
 
     def id(self):
 
+        t = None
         cprint(' ' * 17 + '...Parsing Problem...' + ' ' * 17, 'blue')
         print()
         cprint(" Enter the codeforces contest id : ", 'cyan', end='')
