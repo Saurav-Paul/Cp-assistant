@@ -7,7 +7,7 @@ from tools.OJ.CP.extension import CpExt
 from tools.OJ.CP.help import help_keys, args_help
 from tools.OJ.CP.login import CpLogin
 from tools.OJ.CP.problem import CpProblem
-from tools.OJ.CP.setup import Cp_setup
+from tools.OJ.CP.setup import CpSetup
 from tools.OJ.CP.submit import Cp_Submit
 from tools.OJ.CP.test import Cp_my_tester, Cp_Test
 from tools.OJ.CP.url_manager import Cp_url_manager
@@ -61,7 +61,7 @@ def cp_manager(msg):
         else:
             msg = msg[0]
 
-        obj = Cp_setup()
+        obj = CpSetup()
         obj.template(file_name=msg)
 
     elif 'contest' in ar:
@@ -94,13 +94,13 @@ def cp_manager(msg):
             show = True
         obj.find_files(msg, show, debug_run)
     elif 'setup' in ar:
-        obj = Cp_setup()
+        obj = CpSetup()
         obj.setup()
     elif 'brute' in ar:
         obj = CpBruteforce()
         obj.run()
     elif 'gen' in ar:
-        obj = Cp_setup()
+        obj = CpSetup()
         obj.gen_py()
     elif 'open' in ar:
         all = False

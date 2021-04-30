@@ -1,4 +1,4 @@
-from tools.OJ.CP.setup import Cp_setup
+from tools.OJ.CP.setup import CpSetup
 
 import os
 import subprocess
@@ -22,7 +22,7 @@ class CpExt:
     def template(file_path, file_name='sol.cpp', open_editor=False):
         try:
 
-            obj_template = Cp_setup()
+            obj_template = CpSetup()
             obj_template.template(file_path, file_name, parsingMode=True, open_editor=open_editor)
             return
         except:
