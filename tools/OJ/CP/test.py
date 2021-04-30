@@ -12,13 +12,12 @@ from tools.OJ.CP.table import Table
 cf_tool = True
 
 
-class Cp_my_tester:
+class CpMyTester:
     TLE = 5
     RTE = False
 
     @staticmethod
     def empty_line_remover(text):
-        # text = "".join([text for text in text.strip().splitlines(True) if text.strip("\r\n")])
         text = "".join([text for text in text.strip().splitlines(True) if text.strip()])
         return text
 
@@ -30,14 +29,14 @@ class Cp_my_tester:
             cprint(x, color)
 
     @staticmethod
-    def colorfull_diff_print(x, y):
+    def colorful_diff_print(x, y):
         sz = len(x)
         cnt = 0
         cprint("  Output :", 'yellow', attrs=['bold'])
         for wx, wy in zip_longest(x, y, fillvalue=''):
             print('  ', end='')
             for o, e in zip_longest(wx, wy, fillvalue=''):
-                if (o == e):
+                if o == e:
                     cprint(o, 'green', end='')
                 else:
                     cprint(o, 'red', end='')
@@ -53,7 +52,7 @@ class Cp_my_tester:
         pt = '  ' + '-' * 5 + 'Problem Found in ' + case + '-' * 5
         cprint(pt, 'yellow')
         self.diff_print('Input', i, 'cyan')
-        self.colorfull_diff_print(x, y)
+        self.colorful_diff_print(x, y)
 
         obj = Table()
         obj.print(output, expected)
@@ -83,15 +82,16 @@ class Cp_my_tester:
 
         t = time.time() - t
 
-        if (x.returncode != 0):
+        if x.returncode != 0:
             self.RTE = True
 
-        if (t >= self.TLE):
+        if t >= self.TLE:
             tle = True
 
-        return (result, tle)
+        return result, tle
 
-    def sub_process_old(self, cmd, value):
+    @staticmethod
+    def sub_process_old(cmd, value):
 
         x = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
         with x.stdin as f:
@@ -99,10 +99,10 @@ class Cp_my_tester:
             result = (x.communicate()[0]).decode('utf-8')
             # print(result)
 
-        return (result, False)
+        return result, False
 
-    def make_testfolder(self):
-
+    @staticmethod
+    def make_test_folder():
         ok = False
 
         for file in os.listdir(os.getcwd()):
@@ -125,9 +125,7 @@ class Cp_my_tester:
                             os.mkdir(folder_name)
 
                         path_name = os.path.join(os.getcwd(), folder_name)
-                        # print(path_name)
                         lt = os.listdir(path_name)
-                        # print(lt)
                         ase = len(lt)
                         no = int(ase / 2) + 1
 
@@ -136,14 +134,14 @@ class Cp_my_tester:
                         with open(ans_file_name) as f:
                             y = f.read()
 
-                        fileName_in = name + str(no).zfill(2) + '.in'
-                        fileName_out = name + str(no).zfill(2) + '.out'
+                        file_name_in = name + str(no).zfill(2) + '.in'
+                        file_name_out = name + str(no).zfill(2) + '.out'
                         print()
 
-                        with open(os.path.join(path_name, fileName_in), 'w') as fin:
+                        with open(os.path.join(path_name, file_name_in), 'w') as fin:
                             fin.write(x)
-                        with open(os.path.join(path_name, fileName_out), 'w') as fout:
-                            fout.write(y)
+                        with open(os.path.join(path_name, file_name_out), 'w') as f_out:
+                            f_out.write(y)
             except:
                 pass
 
@@ -151,7 +149,6 @@ class Cp_my_tester:
 
     def test(self, file_name, show=False, debug_run=False):
         path = os.getcwd()
-        # print(path, file_name)
         pt = '-' * 20 + file_name + '-' * 20
         cprint(pt, 'magenta')
         pt = (' ' * 17 + "...Testing...")
@@ -168,8 +165,8 @@ class Cp_my_tester:
         elif os.path.isdir('test'):
             case_folder = 'test'
         elif cf_tool:
-            cf_test = self.make_testfolder()
-            if cf_test == False:
+            cf_test = self.make_test_folder()
+            if not cf_test:
                 cprint("Test folder not available.", 'red', attrs=['bold'])
                 return
         else:
@@ -178,7 +175,6 @@ class Cp_my_tester:
 
         file_path = os.path.join(path, case_folder)
         lt = os.listdir(file_path)
-        # print(lt)
         if len(lt) == 0:
             cprint('Not test file available.')
             return
@@ -209,7 +205,6 @@ class Cp_my_tester:
         cases = 0
         for file in lt:
             ext = file.rsplit(sep='.', maxsplit=1)
-            # print(f'file = {ext}')
             try:
                 if ext[1] == 'in':
                     out = ext[0] + '.out'
@@ -217,7 +212,6 @@ class Cp_my_tester:
                         test_files.append((file, out))
                         cases += 1
                     else:
-                        # print(f'{out} not found.')
                         pass
             except:
                 pass
@@ -240,7 +234,6 @@ class Cp_my_tester:
             file = f[0]
             out = f[1]
             self.RTE = False
-            # print(f'testing {file} with {out}')
             ext = file.rsplit(sep='.', maxsplit=1)
             with open(os.path.join(file_path, file), 'r') as f:
                 value = f.read()
@@ -265,9 +258,7 @@ class Cp_my_tester:
             if t > st:
                 st = t
                 slowest = ext[0]
-            # t = '{:.4}'.format(t)
             t = f'{t:.4f}'
-            # print('code :\n',result)
             cprint('  * Time : ', 'cyan', end='')
             if tle:
                 cprint('TLE', 'red')
@@ -277,7 +268,7 @@ class Cp_my_tester:
 
             with open(os.path.join(file_path, out)) as f:
                 ans = f.read()
-            # print('Expected :\n',ans)
+
             if self.RTE:
                 cprint('  * RTE', 'red')
                 self.different(value, result, ans, ext[0])
@@ -286,12 +277,12 @@ class Cp_my_tester:
             elif result == ans:
                 cprint('  * Passed', 'green')
                 passed += 1
-                if show == True:
+                if show:
                     self.different(value, result, ans, ext[0])
             else:
                 cprint('  * WA', 'red')
                 failed += 1
-                if tle == False:
+                if not tle:
                     self.different(value, result, ans, ext[0])
                 else:
                     is_tle = True
@@ -322,9 +313,7 @@ class Cp_my_tester:
     def find_files(self, file_name='', show=False, debug_run=False):
 
         file_list = []
-        # print(file_name)
         supported_ext = ['cpp', 'py']
-        # print(os.getcwd)
         for file in os.listdir(os.getcwd()):
             try:
                 ext = file.rsplit(sep='.', maxsplit=1)
@@ -334,7 +323,6 @@ class Cp_my_tester:
                             file_list.append(file)
             except:
                 pass
-        # print(file_list)
         sz = len(file_list)
         if sz == 1:
             self.test(file_list[0], show, debug_run)
@@ -362,27 +350,18 @@ class Cp_my_tester:
             cprint("NO FILE FOUND :(", 'red')
 
 
-class Cp_Test:
+class CpTest:
 
-    def test_it(self, file_name):
+    @staticmethod
+    def test_it(file_name):
         try:
             pt = '-' * 20 + file_name + '-' * 20
             cprint(pt, 'magenta')
             pt = (' ' * 17 + "...Testing...")
             print(clr(pt, 'blue'))
             cmd = "g++ " + file_name + " && oj t"
-            # cmd = 'g++ '+file_name+' -o a.out'
             os.system(cmd)
-            # cmd_all =[['g++',file_name,'-o','a.out'] , ['oj','t']]
-            # cmd_all =[['oj','t']]
-            # print(cmd)
-            # for i in cmd_all:
-            #     cp = subprocess.run(i, universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            # result = cp.stderr
-            # result = result.replace('test failed',clr('test failed','red'))
-            # result = result.replace('WA',clr('WA','red'))
-            # result = result.replace('AC',clr('AC','green'))
-            # print(result)
+
             pt = ('-' * 20 + '-' * len(file_name) + '-' * 20)
             cprint(pt, 'magenta')
         except Exception as e:
@@ -393,9 +372,7 @@ class Cp_Test:
     def find_files(self, file_name=''):
 
         file_list = []
-        # print(file_name)
         supported_ext = ['cpp', 'py']
-        # print(os.getcwd)
         for file in os.listdir(os.getcwd()):
             try:
                 ext = file.rsplit(sep='.', maxsplit=1)
@@ -405,7 +382,6 @@ class Cp_Test:
                             file_list.append(file)
             except:
                 pass
-        # print(file_list)
         sz = len(file_list)
         if sz == 1:
             self.test_it(file_list[0])

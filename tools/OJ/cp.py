@@ -9,7 +9,7 @@ from tools.OJ.CP.login import CpLogin
 from tools.OJ.CP.problem import CpProblem
 from tools.OJ.CP.setup import CpSetup
 from tools.OJ.CP.submit import CpSubmit
-from tools.OJ.CP.test import Cp_my_tester, Cp_Test
+from tools.OJ.CP.test import CpMyTester, CpTest
 from tools.OJ.CP.url_manager import Cp_url_manager
 from tools.run_program import if_run_type
 
@@ -77,12 +77,12 @@ def cp_manager(msg):
     elif 'test-oj' in ar:
         msg = msg.replace('test -oj', '')
         msg = msg.replace(' ', '')
-        obj = Cp_Test()
+        obj = CpTest()
         obj.find_files(msg)
     elif 'test' in ar:
         msg = msg.replace('test', '')
         msg = msg.replace(' ', '')
-        obj = Cp_my_tester()
+        obj = CpMyTester()
         # obj.TLE = 1
         show = False
         debug_run = False
