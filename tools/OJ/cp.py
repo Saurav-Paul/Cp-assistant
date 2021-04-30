@@ -5,7 +5,7 @@ from tools.OJ.CP.bruteforce import CpBruteforce
 from tools.OJ.CP.contest import CpContest
 from tools.OJ.CP.extension import CpExt
 from tools.OJ.CP.help import help_keys, args_help
-from tools.OJ.CP.login import Cp_login
+from tools.OJ.CP.login import CpLogin
 from tools.OJ.CP.problem import Cp_Problem
 from tools.OJ.CP.setup import Cp_setup
 from tools.OJ.CP.submit import Cp_Submit
@@ -69,7 +69,7 @@ def cp_manager(msg):
         obj.parse_contest()
 
     elif 'login' in ar:
-        obj = Cp_login()
+        obj = CpLogin()
         obj.login()
     elif 'add' in ar:
         obj = CpAddTest()

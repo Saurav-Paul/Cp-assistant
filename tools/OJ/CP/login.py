@@ -7,9 +7,10 @@ from termcolor import cprint
 from settings.compiler import DEBUG
 
 
-class Cp_login:
+class CpLogin:
 
-    def get_login_link(self):
+    @staticmethod
+    def get_login_link():
         judges = [
             'Codeforces',
             'Atcoder',
@@ -36,7 +37,6 @@ class Cp_login:
 
             print()
             cprint(f"\t\tJudge  : {value}", 'yellow')
-            # cprint("You have choosen "+ value,'yellow')
             get_link = links.get(value, 'None')
         else:
             get_link = 'None'
@@ -94,7 +94,6 @@ class Cp_login:
             else:
                 cmd = 'oj login ' + oj
 
-            # print(cmd)
             print()
             xt = '-' * 15 + 'Oj-Tools-Interface' + '-' * 15
             cprint(xt, 'magenta')
@@ -113,7 +112,6 @@ class Cp_login:
                 else:
                     cprint(" (-_-) Login failed. May be wrong wrong username or password.", 'red')
                 os.remove('.status')
-
 
         except Exception as e:
             if DEBUG:
