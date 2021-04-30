@@ -1,3 +1,5 @@
+from system.platform import get_platform
+
 try:
     import os
     from settings.compiler import compiler
@@ -27,9 +29,11 @@ def run_prog(file_name, debug=False, com=False, no=1):
             else:
                 cmd = compiler['c++']
 
-            cmd = cmd.replace('{filename}', file_name)
-            cmd = cmd.replace('{executable}', ext[0])
+            cmd = cmd.replace("'{filename}'", file_name)
+            cmd = cmd.replace("'{executable}'", ext[0])
             cmd_part = cmd.split(sep='&&')
+            if get_platform() == 'Windows':
+                cmd_part[1] = cmd_part[1].replace('./', '')
             with tqdm(total=1.0, desc='Compilation', initial=.25) as pbar:
                 okk = os.system(cmd_part[0])
                 pbar.update(.75)

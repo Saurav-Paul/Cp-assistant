@@ -97,7 +97,8 @@ class Table:
                         break
 
             print(tx + self.dif_sign, end='')
-
+            # print('hello')
+            # TODO Issue need to fix.. printing issue
             print(' ' + clr(no, 'cyan') + ' ' * (3 - len(no)) + self.dif_sign, end='')
             tx = ''
             if yNull:

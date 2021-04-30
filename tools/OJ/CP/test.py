@@ -5,6 +5,7 @@ from itertools import zip_longest
 from threading import Timer
 from termcolor import colored as clr, cprint
 from settings.compiler import DEBUG
+from system.platform import get_platform
 
 from tools.OJ.CP.table import Table
 
@@ -231,6 +232,10 @@ class Cp_my_tester:
         st = -1.0
         slowest = ''
         is_tle = False
+        if get_platform() == 'Windows':
+            run_cmd = 'test.out'
+        else:
+            run_cmd = './test.out'
         for f in test_files:
             file = f[0]
             out = f[1]
@@ -245,7 +250,8 @@ class Cp_my_tester:
             print()
             cprint('  * ' + ext[0], 'yellow')
             if type == 'cpp':
-                result = self.sub_process(['./test.out'], value)
+
+                result = self.sub_process([run_cmd], value)
             elif type == 'py':
                 result = self.sub_process(['python3', file_name], value)
             else:
