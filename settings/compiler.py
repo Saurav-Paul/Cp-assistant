@@ -1,4 +1,4 @@
-from tools.ConfigParser import ConfigParser_manager as CM
+from tools.ConfigParser import ConfigParserManager as CM
 from system.path import getpath
 import os
 from termcolor import cprint

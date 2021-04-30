@@ -1,6 +1,6 @@
 # Written By Saurav Paul
 from tools.json_manager import JsonManager as JM
-from tools.ConfigParser import ConfigParser_manager as CM
+from tools.ConfigParser import ConfigParserManager as CM
 from system.path import getpath
 import os
 from termcolor import cprint
@@ -72,12 +72,12 @@ START_SCREEN_NAME = bot['name']  # Enter a string to make start screen banner
 
 def update_bot(orginal_path):
     f = orginal_path + '/settings/bot.json'
-    JM.json_write(f, bot)
+    JM.json_write(bot)
 
 
 def read_bot(orginal_path):
     f = orginal_path + '/settings/bot.json'
-    bot = JM.json_read(f)
+    bot = JM.json_read()
     print(bot)
     # return bot
 

@@ -6,7 +6,7 @@ from settings.settings import bot as bt
 from settings.settings import interaction_setting as its
 from settings.settings import update_bot
 from system.path import getpath
-from tools.ConfigParser import ConfigParser_manager as CM
+from tools.ConfigParser import ConfigParserManager as CM
 from tools.json_manager import JsonManager as JM
 
 config_keys = ['-config', '-settings']
@@ -959,9 +959,9 @@ class Config:
 
             if confirm.lower() in self.confirm_keys:
                 try:
-                    dic = JM.json_read(train_path)
+                    dic = JM.json_read()
                     dic[question] = answer
-                    JM.json_write(train_path, dic)
+                    JM.json_write(dic)
                     cprint(" Learned successfully.", 'green')
                 except Exception as e:
                     cprint(e)
