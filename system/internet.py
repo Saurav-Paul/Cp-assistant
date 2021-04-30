@@ -3,7 +3,7 @@ import requests
 
 def check_internet():
     try:
-        requests.get('https://www.google.com/').status_code
+        var = requests.get('https://www.google.com/').status_code
         return True
     except:
         return False

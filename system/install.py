@@ -1,4 +1,5 @@
-import os, subprocess
+import os
+import subprocess
 
 try:
     from system.screen_text import command_sep

@@ -1,11 +1,8 @@
-# import pyfiglet
-from os import system, name
-from random import choice
+from os import system
 
-try:
-    from termcolor import colored, cprint
-except Exception as e:
-    print(e)
+from termcolor import cprint
+
+from system.platform import get_platform
 
 color = ['blue', 'yellow', 'green']
 
@@ -13,13 +10,6 @@ color = ['blue', 'yellow', 'green']
 def line_sep(t=1):
     for i in range(t):
         cprint('-' * 50, 'magenta')
-
-
-# def asci_banner(msg):
-#     banner = pyfiglet.figlet_format(msg)
-#     line_sep(2)
-#     cprint(banner, choice(color), attrs=['bold'])
-#     line_sep(2)
 
 
 def thoughts_processing(msg):
@@ -32,14 +22,8 @@ def command_sep():
     cprint(x, 'magenta')
 
 
-def clear_screen(start=True):
-    from settings.settings import START_SCREEN_NAME
-    # for windows 
-    if name == 'nt':
+def clear_screen():
+    if get_platform() == 'windows':
         _ = system('cls')
-
-        # for mac and linux(here, os.name is 'posix')
     else:
         _ = system('clear')
-    # if start:
-    #     asci_banner(START_SCREEN_NAME)
