@@ -56,6 +56,8 @@ class Table:
     def line_print(self, no, x, y):
 
         pt = []
+        x = x.replace('\r', '')
+        y = y.replace('\r', '')
 
         for o, e in zip_longest(x, y, fillvalue=''):
             if (o == e):
@@ -97,8 +99,7 @@ class Table:
                         break
 
             print(tx + self.dif_sign, end='')
-            # print('hello')
-            # TODO Issue need to fix.. printing issue
+
             print(' ' + clr(no, 'cyan') + ' ' * (3 - len(no)) + self.dif_sign, end='')
             tx = ''
             if yNull:
