@@ -16,6 +16,9 @@ class CpMyTester:
     TLE = 5
     RTE = False
 
+    def __init__(self, ns=False):
+        self.ns = ns
+
     @staticmethod
     def empty_line_remover(text):
         text = "".join([text for text in text.strip().splitlines(True) if text.strip()])
@@ -147,10 +150,9 @@ class CpMyTester:
 
         return ok
 
-    @staticmethod
-    def value_rectifier(s, strip_ok=True):
+    def value_rectifier(self, s, strip_ok=True):
         s = s.replace('\r', '')
-        if strip_ok:
+        if strip_ok and self.ns:
             val = ''
             for c in s.split(sep='\n'):
                 val += c.strip() + '\n'

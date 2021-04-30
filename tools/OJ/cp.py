@@ -82,7 +82,11 @@ def cp_manager(msg):
     elif 'test' in ar:
         msg = msg.replace('test', '')
         msg = msg.replace(' ', '')
-        obj = CpMyTester()
+        ns = False
+        if '-ns' in msg:
+            msg = msg.replace('-ns', '')
+            ns = True
+        obj = CpMyTester(ns)
         # obj.TLE = 1
         show = False
         debug_run = False
