@@ -5,9 +5,10 @@ import webbrowser
 from termcolor import cprint
 
 
-class Cp_url_manager:
+class CpUrlManager:
 
-    def cf_id_from_cwd(self):
+    @staticmethod
+    def cf_id_from_cwd():
         try:
             curr_path = os.getcwd()
             problem_id = curr_path.split(sep='/')
@@ -16,13 +17,12 @@ class Cp_url_manager:
         except:
             return ''
 
-    def check_cf_id(self, id):
+    @staticmethod
+    def check_cf_id(id):
         try:
             id = id.split(' ')
             if len(id) != 2:
                 return False
-            x = int(id[0])
-            y = id[1]
             return True
         except:
             cprint('not cf id', 'red')
@@ -32,7 +32,7 @@ class Cp_url_manager:
         try:
             id = self.cf_id_from_cwd()
 
-            if self.check_cf_id(id) == False:
+            if not self.check_cf_id(id):
                 return False
 
             url = 'https://codeforces.com/contest/$CONTEST_ID/problem/$ALPHABET'
@@ -54,7 +54,7 @@ class Cp_url_manager:
             info = json.loads(info)
             url = info['url']
 
-            if all == True:
+            if all:
                 if 'codeforces.com' in url:
                     lab = url.rsplit('/', maxsplit=1)
                     lab[-1] = ''
@@ -67,14 +67,14 @@ class Cp_url_manager:
             cprint(' Check Browser.', 'yellow')
 
         except:
-            if self.open_from_cwd() == False:
+            if not self.open_from_cwd():
                 cprint(" Can't find valid url.", 'red')
 
     def stand_from_cwd(self):
         try:
             id = self.cf_id_from_cwd()
 
-            if self.check_cf_id(id) == False:
+            if not self.check_cf_id(id):
                 return False
 
             stand_url = 'https://codeforces.com/contest/$CONTEST_ID/standings/friends/true'
@@ -89,7 +89,8 @@ class Cp_url_manager:
             print(e)
             return False
 
-    def stand_open(self, url):
+    @staticmethod
+    def stand_open(url):
 
         if 'codeforces.com' in url:
             stand_url = 'https://codeforces.com/contest/$CONTEST_ID/standings/friends/true'
@@ -120,5 +121,5 @@ class Cp_url_manager:
             self.stand_open(url)
 
         except:
-            if self.stand_from_cwd() == False:
+            if not self.stand_from_cwd():
                 cprint(" Can't find valid url.", 'red')

@@ -10,7 +10,7 @@ from tools.OJ.CP.problem import CpProblem
 from tools.OJ.CP.setup import CpSetup
 from tools.OJ.CP.submit import CpSubmit
 from tools.OJ.CP.test import CpMyTester, CpTest
-from tools.OJ.CP.url_manager import Cp_url_manager
+from tools.OJ.CP.url_manager import CpUrlManager
 from tools.run_program import if_run_type
 
 cp_keys = ['-cp', '-Cp']
@@ -107,10 +107,10 @@ def cp_manager(msg):
         if 'all' in ar:
             all = True
 
-        obj = Cp_url_manager()
+        obj = CpUrlManager()
         obj.open(all)
     elif 'stand' in ar or 'standing' in ar:
-        obj = Cp_url_manager()
+        obj = CpUrlManager()
         obj.stand()
     elif msg in help_keys:
         args_help()
