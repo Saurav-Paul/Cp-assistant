@@ -55,7 +55,7 @@ class Table:
         self.separator()
 
     @staticmethod
-    def value_rectifier(s, strip_ok=True):
+    def value_rectifier(s, strip_ok=False):
         s = s.replace('\r', '')
         if strip_ok:
             s = s.strip()

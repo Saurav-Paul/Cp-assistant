@@ -147,6 +147,17 @@ class CpMyTester:
 
         return ok
 
+    @staticmethod
+    def value_rectifier(s, strip_ok=True):
+        s = s.replace('\r', '')
+        if strip_ok:
+            val = s.split(sep='\n')
+            new_val = []
+            for c in val:
+                new_val.append(c.strip())
+            s = '\n'.join(val)
+        return s
+
     def test(self, file_name, show=False, debug_run=False):
         path = os.getcwd()
         pt = '-' * 20 + file_name + '-' * 20
@@ -250,7 +261,7 @@ class CpMyTester:
             else:
                 result = ('', False)
             tle = result[1]
-            result = result[0]
+            result = self.value_rectifier(result[0])
 
             value = old_value  # returning the old value
 
@@ -269,6 +280,7 @@ class CpMyTester:
             with open(os.path.join(file_path, out)) as f:
                 ans = f.read()
 
+            ans = self.value_rectifier(ans)
             if self.RTE:
                 cprint('  * RTE', 'red')
                 self.different(value, result, ans, ext[0])
