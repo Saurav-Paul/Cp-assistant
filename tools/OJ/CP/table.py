@@ -19,7 +19,8 @@ class Table:
 
     dif_sign = clr('|', table_color, attrs=['bold'])
 
-    def multiple(self, n, value=' '):
+    @staticmethod
+    def multiple(n, value=' '):
         s = value * n
         return s
 
@@ -53,14 +54,21 @@ class Table:
 
         self.separator()
 
+    @staticmethod
+    def value_rectifier(s, strip_ok=True):
+        s = s.replace('\r', '')
+        if strip_ok:
+            s = s.strip()
+        return s
+
     def line_print(self, no, x, y):
 
         pt = []
-        x = x.replace('\r', '')
-        y = y.replace('\r', '')
+        x = self.value_rectifier(x)
+        y = self.value_rectifier(y)
 
         for o, e in zip_longest(x, y, fillvalue=''):
-            if (o == e):
+            if o == e:
                 pt.append(clr(o, self.accepted))
             else:
                 pt.append(clr(o, self.wrong))
@@ -69,26 +77,26 @@ class Table:
         sy = len(y)
         curr = 0
 
-        xNull = False
-        yNull = False
+        x_null = False
+        y_null = False
 
         if x == '(#$null$#)':
-            xNull = True
+            x_null = True
 
         if y == '(#$null$#)':
-            yNull = True
+            y_null = True
 
-        smax = max(sx, sy)
+        s_max = max(sx, sy)
         line_col = 'cyan'
 
         if x != y:
             line_col = 'red'
 
-        while curr <= smax:
+        while curr <= s_max:
 
             print(self.dif_sign + ' ' + clr(no, line_col) + ' ' * (3 - len(no)) + self.dif_sign, end='')
             tx = ''
-            if xNull == True:
+            if x_null:
                 tx = clr('(null)', self.information) + ' ' * (self.box_weight - 6)
             else:
                 for i in range(curr, curr + self.box_weight):
@@ -102,7 +110,7 @@ class Table:
 
             print(' ' + clr(no, 'cyan') + ' ' * (3 - len(no)) + self.dif_sign, end='')
             tx = ''
-            if yNull:
+            if y_null:
                 tx = clr('(null)', self.information) + ' ' * (self.box_weight - 6)
             else:
                 for i in range(curr, curr + self.box_weight):
@@ -121,14 +129,16 @@ class Table:
 
         self.header(col1, col2)
 
-        xempty = False
-        yempty = False
+        x_empty = False
+        y_empty = False
+
+        vx, vy = '', ''
 
         if output == '':
-            xempty = True
+            x_empty = True
 
         if expected == '':
-            yempty = True
+            y_empty = True
         x = output.split(sep='\n')
         y = expected.split(sep='\n')
 
@@ -141,15 +151,15 @@ class Table:
             try:
                 vx = x[no]
             except:
-                xempty = True
+                x_empty = True
             try:
                 vy = y[no]
             except:
-                yempty = True
+                y_empty = True
 
-            if xempty:
+            if x_empty:
                 vx = '(#$null$#)'
-            if yempty:
+            if y_empty:
                 vy = '(#$null$#)'
             self.line_print(str(no + 1), vx, vy)
 
