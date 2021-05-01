@@ -36,7 +36,6 @@ class CpAddTest:
     def add_case(self, name='Custom-'):
         """  function for adding testcases """
         try:
-            print(self.open_editor)
             pt = '-' * 20 + '-' * 10 + '-' * 20
             cprint(pt, 'magenta')
             pt = (' ' * 17 + "...Adding Testcase..." + '\n')
