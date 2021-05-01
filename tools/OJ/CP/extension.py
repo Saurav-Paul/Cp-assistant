@@ -1,3 +1,4 @@
+from system.platform import get_platform
 from tools.OJ.CP.setup import CpSetup
 
 import os
@@ -17,6 +18,8 @@ editor_file_name = []
 class CpExt:
     HOST = '127.0.0.1'
     PORT = competitive_companion_port
+    PARSED_URL = []
+    NOT_FINISHED = True
 
     @staticmethod
     def template(file_path, file_name='sol.cpp', open_editor=False):
@@ -41,6 +44,9 @@ class CpExt:
         try:
             problem = self.rectify(problem)
             dic = json.loads(problem)
+            if dic['url'] in self.PARSED_URL:
+                return
+            self.PARSED_URL.append(dic['url'])
             if link:
                 dic = dic['result']
 
@@ -63,17 +69,23 @@ class CpExt:
 
             contest_path = os.path.join(base, contest_name)
 
-            if base_name != contest_name and contest_name != 'NULL':
-                if cnt == 0:
-                    if not os.path.isdir(contest_name):
-                        os.mkdir(contest_name)
-                        cprint(f" Folder {contest_name} is created.", 'blue')
-                        info = '{"contest_name" : "$CONTEST" , "url" : "$URL"}'
-                        info = info.replace('$CONTEST', contest_name)
-                        info = info.replace('$URL', url)
-                        with open(os.path.join(contest_path, '.info'), 'w') as f:
-                            f.write(info)
-                    cprint(f" All the problems will be parsed into '{contest_name}' folder.\n", 'magenta')
+            if contest_name != 'NULL':
+                contest_path = self.get_contest_path(base, contest_name)
+
+            if contest_name != 'NULL':
+                try:
+                    if cnt == 0:
+                        if not os.path.isdir(contest_name):
+                            os.mkdir(contest_name)
+                            cprint(f" Folder {contest_name} is created.", 'blue')
+                            info = '{"contest_name" : "$CONTEST" , "url" : "$URL"}'
+                            info = info.replace('$CONTEST', contest_name)
+                            info = info.replace('$URL', url)
+                            with open(os.path.join(contest_path, '.info'), 'w') as f:
+                                f.write(info)
+                        cprint(f" All the problems will be parsed into '{contest_name}' folder.\n", 'magenta')
+                except Exception as e:
+                    print(e)
                 os.chdir(contest_path)
 
             if not os.path.isdir(problem_name):
@@ -117,8 +129,12 @@ class CpExt:
             cprint(f'  {problem_name} fetched successfully.', 'green')
             os.chdir(contest_path)
 
-        except:
-            pass
+        except Exception as e:
+            cprint(e, 'red')
+
+    def time_out(self, target_time):
+        time.sleep(target_time)
+        self.NOT_FINISHED = False
 
     def listen(self):
 
@@ -131,7 +147,7 @@ class CpExt:
             timeout = 1000
             cnt = 0
             ok = True
-            while ok:
+            while ok and self.NOT_FINISHED:
                 try:
                     s.listen()
                     s.settimeout(timeout)
@@ -139,7 +155,8 @@ class CpExt:
                     conn, addr = s.accept()
                     with conn:
                         problem_json = ''
-                        while True:
+                        continue_loop = True
+                        while continue_loop and self.NOT_FINISHED:
                             data = conn.recv(1024)
                             result = (data.decode('utf-8'))
 
@@ -149,12 +166,14 @@ class CpExt:
                                 t = threading.Thread(target=self.create, args=(problem_json, cnt))
                                 t.start()
                                 cnt += 1
-                                break
+                                continue_loop = False
+                                ok = False
                             else:
                                 problem_json += result
                                 pass
 
-                except:
+                except Exception as e:
+                    print(e)
                     ok = False
 
         print()
@@ -285,3 +304,25 @@ class CpExt:
 
         except Exception as e:
             cprint(e, 'red')
+
+    @staticmethod
+    def get_contest_path(base, contest_name):
+        if get_platform() == 'Windows':
+            sep = '\\'
+        else:
+            sep = '/'
+        cnt = len(base.split(sep=sep))
+        if cnt <= 2:
+            return base
+        base = base.rsplit(sep=sep, maxsplit=cnt - 2)
+        contest_path = 'None'
+        for b in base:
+            if b == contest_name:
+                break
+            if not contest_path:
+                contest_path = b
+            else:
+                contest_path = os.path.join(contest_path, b)
+
+        contest_path = os.path.join(contest_path, contest_name)
+        return contest_path

@@ -107,12 +107,11 @@ def cp_manager(msg):
         obj = CpSetup()
         obj.gen_py()
     elif 'open' in ar:
-        all = False
+        all_item = False
         if 'all' in ar:
-            all = True
-
+            all_item = True
         obj = CpUrlManager()
-        obj.open(all)
+        obj.open(all_item)
     elif 'stand' in ar or 'standing' in ar:
         obj = CpUrlManager()
         obj.stand()

@@ -6,6 +6,7 @@ from termcolor import cprint
 
 from run.startup import start_up
 from settings.config import if_config_type
+from system.platform import get_platform
 
 start_up()
 
@@ -47,9 +48,10 @@ def cp_start():
         cprint(pt, border_col)
         cprint(f' (^-^) -> Good luck sir.', 'green')
         cprint(pt, border_col)
-
         if status == '$SHELL':
-            os.system('$SHELL')
+            if get_platform() != 'Windows':
+                os.system('$SHELL')
 
-    except:
+    except Exception as e:
+        print(e)
         cprint("Can't open sir.", 'red')
