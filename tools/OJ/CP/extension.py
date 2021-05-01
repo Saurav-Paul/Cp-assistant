@@ -173,7 +173,7 @@ class CpExt:
                                 pass
 
                 except Exception as e:
-                    print(e)
+                    # print(e)
                     ok = False
 
         print()
