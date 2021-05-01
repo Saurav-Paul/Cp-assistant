@@ -46,6 +46,8 @@ setup(
         'requests',
         'termcolor',
         'tqdm',
+        'online-judge-api-client',
+        'online-judge-tools',
     ],
     entry_points={
         'console_scripts': [
