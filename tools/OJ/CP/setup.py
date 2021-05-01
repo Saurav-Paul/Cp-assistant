@@ -143,7 +143,7 @@ class CpSetup:
             except Exception as e:
                 cprint(e, 'red')
                 cprint("template path doesn't exist. Sorry sir.", 'red')
-                cprint("check settings/compiler.py to change your template path :D .", 'yellow')
+                cprint("check -config to change your template path :D .", 'yellow')
                 return
         except Exception as e:
             cprint(e, 'red')

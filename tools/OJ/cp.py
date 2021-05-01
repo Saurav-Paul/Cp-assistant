@@ -73,6 +73,9 @@ def cp_manager(msg):
         obj.login()
     elif 'add' in ar:
         obj = CpAddTest()
+        if '-e' in ar or '-editor' in ar:
+            print(ar)
+            obj.open_editor = True
         obj.add_case()
     elif 'test-oj' in ar:
         msg = msg.replace('test -oj', '')
