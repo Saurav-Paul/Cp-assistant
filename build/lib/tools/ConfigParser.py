@@ -11,9 +11,9 @@ class ConfigParserManager:
             if section != '':
                 return dict(config[section])
 
-            return dict(config)
+            return config
         except:
-            return dict('')
+            return ''
 
     def update(self, file_name, value, section='user'):
         config = configparser.ConfigParser()

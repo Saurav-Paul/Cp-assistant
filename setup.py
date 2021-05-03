@@ -51,8 +51,9 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'Cp = run.cp_run:cp_start',
-            'CP = run.cp_run:cp_start',
+            'Cp- = run.cp_run:cp_start',
+            'CP- = run.cp_run:cp_start',
+            'cp- = run.cp_run:cp_start',
         ],
     },
 )

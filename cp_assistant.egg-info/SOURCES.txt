@@ -16,9 +16,9 @@ run/__init__.py
 run/cp_run.py
 run/startup.py
 settings/__init__.py
-settings/_first_load_.py
 settings/compiler.py
 settings/config.py
+settings/first_load.py
 settings/logs.py
 settings/settings.py
 system/__about__.py

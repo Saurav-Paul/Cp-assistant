@@ -32,24 +32,22 @@ bot = {
     'voice_engine': 'robotic',  # you can change it to 'gTTS' for more natural voice (online)
 
 }
-conf_path = os.path.join(getpath(__file__), 'settings.conf')
-# try:
-#     obj = CM()
-#     bot = obj.read(conf_path, section='bot')
-#     print(bot)
-#     print(type(bot))
-# except Exception as e:
-#     print('first_try', e)
+
+try:
+    bot = JM.json_read(os.path.join(__file__, '/settings/bot.json'))
+except Exception as e:
+    print(e)
 
 DEBUG = True
 LEARN = True
+conf_path = os.path.join(getpath(__file__), 'settings.conf')
 
 try:
 
     section = 'bot'
     obj = CM()
     bot = obj.read(conf_path, section=section)
-    bot = dict(bot)
+    print(bot)
     section = 'interaction_setting'
     x = obj.read(conf_path, section=section)
     for i in interaction_setting:
@@ -73,12 +71,10 @@ try:
 
 except Exception as e:
     cprint(e, 'red')
-    print(conf_path)
-    print(bot)
     cprint("Settings error.", 'red')
 
 try:
-    START_SCREEN_NAME = bot.get('name')  # Enter a string to make start screen banner
+    START_SCREEN_NAME = bot['name']  # Enter a string to make start screen banner
 except Exception as e:
     print(e)
 
@@ -101,10 +97,3 @@ def update_dev(xyz):
         DEBUG = True
     else:
         DEBUG = False
-
-
-def get_bot():
-    bot_obj = CM()
-    bot_obj = dict(bot_obj.read(conf_path, section='bot'))
-    print(bot_obj)
-    return bot_obj

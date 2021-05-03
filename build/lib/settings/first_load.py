@@ -69,6 +69,7 @@ def first_time():
     obj.update(conf_path, x, section)
 
     print()
+    return
     cprint(f' (^-^) Hello {name} , do you want me to speak ?(Y/N) ', 'cyan', end='')
     confirm = input()
     positive_keys = ['y', 'yes', 'ok', 'okay']
@@ -113,6 +114,3 @@ def check_if_first_time():
         obj.update(conf_path, dic, section)
         return True
     pass
-
-
-check_if_first_time()
