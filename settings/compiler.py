@@ -2,9 +2,7 @@ from tools.ConfigParser import ConfigParserManager as CM
 from system.path import getpath
 import os
 from termcolor import cprint
-from settings.settings import get_bot
-
-bot = get_bot()
+from settings.settings import bot
 
 positive = ['yes', '1', 'true']
 
@@ -24,7 +22,7 @@ cf_tool_mode = False
 DEBUG = True
 editor = '$NONE'
 editor_name = 'NONE'
-coder_name = bot.get('boss', 'None')
+coder_name = bot['boss']
 competitive_companion_port = 10043
 parse_problem_with_template = True  # If true, after parsing all the codes will contain a file name sol.cpp (with your template)
 
@@ -47,7 +45,7 @@ try:
         cf_tool_mode = True
 
     if coder_name == "${boss}":
-        coder_name = bot.get('boss', 'None')
+        coder_name = bot['boss']
 
     competitive_companion_port = int(x['competitive_companion_port'])
     parse_problem_with_template = x['parse_problem_with_template']

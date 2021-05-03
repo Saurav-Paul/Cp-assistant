@@ -33,11 +33,6 @@ bot = {
 
 }
 
-try:
-    bot = JM.json_read(os.path.join(__file__, '/settings/bot.json'))
-except Exception as e:
-    print(e)
-
 DEBUG = True
 LEARN = True
 conf_path = os.path.join(getpath(__file__), 'settings.conf')
@@ -47,7 +42,6 @@ try:
     section = 'bot'
     obj = CM()
     bot = obj.read(conf_path, section=section)
-    print(bot)
     section = 'interaction_setting'
     x = obj.read(conf_path, section=section)
     for i in interaction_setting:
@@ -73,27 +67,32 @@ except Exception as e:
     cprint(e, 'red')
     cprint("Settings error.", 'red')
 
-try:
-    START_SCREEN_NAME = bot['name']  # Enter a string to make start screen banner
-except Exception as e:
-    print(e)
+START_SCREEN_NAME = bot['name']  # Enter a string to make start screen banner
 
 
-def update_bot(original_path):
-    f = os.path.join(original_path, '/settings/bot.json')
-    JM.json_write(bot)
+def update_bot(orginal_path):
+    f = orginal_path + '/settings/bot.json'
+    JM.json_write(f, bot)
 
 
-def read_bot(original_path):
-    global bot
-    f = os.path.join(original_path, '/settings/bot.json')
+def read_bot(orginal_path):
+    f = orginal_path + '/settings/bot.json'
     bot = JM.json_read(f)
+    print(bot)
+    # return bot
 
 
-def update_dev(xyz):
+def update_bot(x):
+    global bot
+    global START_SCREEN_NAME
+    bot = x
+    START_SCREEN_NAME = bot['name']
+
+
+def update_dev(x):
     global DEBUG
 
-    if xyz['debug'].lower() in positive:
+    if x['debug'].lower() in positive:
         DEBUG = True
     else:
         DEBUG = False
