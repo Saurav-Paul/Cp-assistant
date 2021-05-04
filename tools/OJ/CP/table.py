@@ -5,7 +5,7 @@ import os
 
 class Table:
     try:
-        columns, rows = os.get_terminal_size(0)
+        columns, rows = os.get_terminal_size()
         columns -= 15
     except:
         columns = 100

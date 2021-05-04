@@ -31,7 +31,7 @@ setup(
         'Intended Audience :: End Users/Desktop',
         'Operating System :: POSIX :: Linux',
         'Operating System :: MacOS :: MacOS X',
-        "OPERATING SYSTEM :: MICROSOFT :: WINDOWS :: WINDOWS 10",
+        "Operating System :: Microsoft :: Windows",
         # Pick your license as you wish
         'License :: OSI Approved :: MIT License',
     ],

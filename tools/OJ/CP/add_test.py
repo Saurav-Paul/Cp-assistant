@@ -98,7 +98,6 @@ class CpAddTest:
             cprint(pt, 'magenta')
             if self.open_editor and editor != '$NONE':
                 os.system(f'{editor} "{filename_out_path}"')
-                print(f'{editor} "{filename_out_path}"')
                 os.system(f'{editor} "{filename_in_path}"')
         except:
             cprint("Can't add testcase. :( ", 'red', attrs=['bold'])

@@ -1,12 +1,24 @@
 Metadata-Version: 2.1
 Name: cp-assistant
-Version: 1.0.1
+Version: 1.0.3
 Summary: CLI virtual assistant for competitive programming
 Home-page: https://github.com/Saurav-Paul/Cp-assistant
 Author: Saurav Paul
 Author-email: sauravpaul.sunny@gmail.com
 License: MIT License
 Description: # Cp-assistant
+        
+        Build command,
+        
+        "
+            pip setup.py bdist_wheel
+        "
+        
+        install command , 
+        "
+        pip install wheel
+        pip install cp-assistant
+        "
 Keywords: cp assistant
 Platform: UNKNOWN
 Classifier: Development Status :: 5 - Production/Stable
@@ -14,6 +26,7 @@ Classifier: Environment :: Console
 Classifier: Intended Audience :: End Users/Desktop
 Classifier: Operating System :: POSIX :: Linux
 Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: Microsoft :: Windows
 Classifier: License :: OSI Approved :: MIT License
 Requires-Python: >=3.5
 Description-Content-Type: text/markdown
